@@ -23,7 +23,7 @@ const signupUser = (req, res) => {
     
     const hashedPassword = bcrypt.hashSync(password, 10)
   
-    connection.query(`INSERT INTO Users (First_Name, Last_Name, Email, Password) VALUES (?, ?, ?, ?)`, [firstName, lastName, email, hashedPassword])
+    connection.query(`INSERT INTO jwt_authentication.Users (First_Name, Last_Name, Email, Password) VALUES (?, ?, ?, ?)`, [firstName, lastName, email, hashedPassword])
   
     res.send(`Added ${firstName} ${lastName} as a new user.`)
   } catch (error) {
@@ -31,4 +31,41 @@ const signupUser = (req, res) => {
   }
 }
 
-module.exports = { getUsers, signupUser }
+const loginUser = (req, res) => {
+  try {
+    const { email, password } = req.body
+  
+    connection.query(`SELECT * FROM jwt_authentication.Users WHERE Email = ?`, [email], (error, result) => {
+      if (error) {
+        console.log('Error:', error)
+        res.send(`Error logging in the user. ${JSON.stringify(error?.message)}`)
+      } else {
+        if (!result.length) {
+          return res.status(401).send('Cannot find user with the given email and password.')
+        }
+  
+        const arePasswordsMatching = bcrypt.compareSync(password, result[0].Password)
+  
+        if (!arePasswordsMatching) {
+          return res.status(401).send('Cannot find user with the given email and password.')
+        }
+  
+        const {
+          User_ID: userID,
+          First_Name: fName,
+          Last_Name: lName,
+          Email: email,
+          Password: realPassword
+        } = result[0]
+        
+        const responseMessage = `Logged in as ${fName} ${lName}!`
+        res.status(200).send(responseMessage)
+      }
+    })
+  } catch (error) {
+    console.log('Error:', error)
+    res.send(`Error logging in the user. ${JSON.stringify(error?.message)}`)
+  }
+}
+
+module.exports = { getUsers, signupUser, loginUser }

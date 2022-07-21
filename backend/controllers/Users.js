@@ -5,11 +5,12 @@ const { connection } = require('../config/Database')
 
 const getUsers = (req, res) => {
   try {
-    connection.query(`SELECT User_ID, First_Name, Last_Name, Email FROM jwt_authentication.Users`, (error, result) => {
+    connection.query(`SELECT User_ID AS userID, First_Name AS fName, Last_Name AS lName, email FROM jwt_authentication.Users`, (error, result) => {
       if (error) {
         console.log(error)
+        res.sendStatus(400)
       } else {
-        console.log(result)
+        res.json(result)
       }
     })
   } catch (error) {

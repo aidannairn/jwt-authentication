@@ -6,18 +6,21 @@ const Login = () => {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [msg, setMsg] = useState('')
-
+  
   const navigate = useNavigate()
+  
+  const { REACT_APP_AXIOS_URL: url } = process.env
 
   const handleInputChange = (e, type) => {
     if (type === 'email') return setEmail(e.target.value)
     if (type === 'password') return setPassword(e.target.value)
   }
 
+
   const handleUserLogin = async (e) => {
     e.preventDefault()
     try {
-      await axios.put('/login', {
+      await axios.put(`${url}/login`, {
         email,
         password
       })

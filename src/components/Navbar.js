@@ -4,10 +4,12 @@ import { useNavigate } from 'react-router-dom';
 
 const Navbar = () => {
   const navigate = useNavigate()
+  
+  const { REACT_APP_AXIOS_URL: url } = process.env
 
   const handleUserLogout = async () => {
     try {
-      await axios.delete('/logout')
+      await axios.delete(`${url}/logout`)
       navigate('/', { replace: true })
     } catch (error) {
       if (error) console.log(error.response.data)

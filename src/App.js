@@ -1,8 +1,22 @@
+import { BrowserRouter, Route, Routes } from 'react-router-dom'
+
+import Navbar from './components/Navbar';
+import Dashboard from './components/Dashboard';
+import Signup from './components/Signup';
+import Login from './components/Login';
+
 const App = () => {
   return (
-    <div>
-      <h1>Hello World</h1>
-    </div>
+    <BrowserRouter>
+      <Routes>
+        <Route path='/' element={<Login />} />
+        <Route path='/signup' element={<Signup />} />
+        <Route path='/dashboard' element={[
+          <Navbar key='navbar' />,
+          <Dashboard key='dashboard' />
+        ]} />
+      </Routes>
+    </BrowserRouter>
   )
 }
 

@@ -55,11 +55,24 @@ const loginUser = (req, res) => {
           First_Name: fName,
           Last_Name: lName,
           Email: email,
-          Password: realPassword
         } = result[0]
-        
-        const responseMessage = `Logged in as ${fName} ${lName}!`
-        res.status(200).send(responseMessage)
+
+        const accessToken = jwt.sign({ userID, fName, lName, email }, process.env.ACCESS_TOKEN_SECRET, {
+          expiresIn: '15s'
+        })
+
+        const refreshToken = jwt.sign({ userID, fName, lName, email }, process.env.REFRESH_TOKEN_SECRET, {
+          expiresIn: '1d'
+        })
+
+        connection.query(`UPDATE jwt_authentication.Users SET Refresh_Token = "${refreshToken}" WHERE User_ID = ${userID}`)
+
+        res.cookie('refreshToken', refreshToken, {
+          httpOnly: true,
+          maxAge: 24 * 60 * 60 * 1000
+        })
+
+        res.status(200).json({ accessToken })
       }
     })
   } catch (error) {

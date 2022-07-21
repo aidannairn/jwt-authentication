@@ -8,14 +8,13 @@ const Login = () => {
   const [msg, setMsg] = useState('')
   
   const navigate = useNavigate()
-  
+
   const { REACT_APP_AXIOS_URL: url } = process.env
 
   const handleInputChange = (e, type) => {
     if (type === 'email') return setEmail(e.target.value)
     if (type === 'password') return setPassword(e.target.value)
   }
-
 
   const handleUserLogin = async (e) => {
     e.preventDefault()
@@ -36,7 +35,7 @@ const Login = () => {
         <h1>Login</h1>
         {msg !== '' && <p>{msg}</p>}
         <form id="login-form" onSubmit={handleUserLogin}>
-          <input type="text" placeholder='your-email@example.com' value={email} onChange={e => handleInputChange(e, 'email')}/>
+          <input type="email" placeholder='your-email@example.com' value={email} onChange={e => handleInputChange(e, 'email')}/>
           <input type="password" placeholder='Password' value={password} onChange={e => handleInputChange(e, 'password')}/>
           <input type="submit" />
         </form>

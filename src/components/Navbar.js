@@ -18,12 +18,11 @@ const Navbar = () => {
   return (
     <div id="navbar-container">
       <h1>DASHBOARD</h1>
-      <div className="nav-btn">
-        Home
-      </div>
-      <div className="nav-btn" onClick={handleUserLogout}>
-        Log Out
-      </div>
+      <nav>
+        <h3 className="nav-btn" onClick={handleUserLogout}>
+          Log Out
+        </h3>
+      </nav>
     </div>
   )
 }

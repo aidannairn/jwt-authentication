@@ -59,7 +59,7 @@ const Signup = () => {
           <input type="email" placeholder='your-email@example.com' value={email} onChange={e => handleInputChange(e, 'email')}/>
           <input type="password" placeholder='Password' value={password} onChange={e => handleInputChange(e, 'password')}/>
           <input type="password" placeholder='Confirm Password' value={matchPassword} onChange={e => handleInputChange(e, 'matchPassword')}/>
-          <input type="submit" />
+          <input type="submit" value="Create Account" />
         </form>
       </div>
     </div>
